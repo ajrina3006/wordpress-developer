@@ -6,7 +6,7 @@ pipeline {
         stage('Pull Latest Code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/USERNAME/developer-repo.git'
+                    url: 'https://github.com/ajrina3006/wordpress-developer.git'
             }
         }
 
