@@ -2,14 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Pull Code') {
+
+        stage('Pull Latest Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/USERNAME/wordpress-developer.git'
+                git branch: 'main',
+                    url: 'https://github.com/USERNAME/developer-repo.git'
             }
         }
-        stage('Deploy to Server') {
+
+        stage('Sync to Production WordPress') {
             steps {
-                sh 'rsync -avz ./src/ /var/www/html/'
+                sh """
+                rsync -av --delete wp-content/ /var/www/html/wp-content/
+                """
+            }
+        }
+
+        stage('Reload Apache') {
+            steps {
+                sh "systemctl reload apache2 || true"
             }
         }
     }
