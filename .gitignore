@@ -1,0 +1,7 @@
+wp-admin/
+wp-includes/
+*.log
+*.zip
+node_modules/
+vendor/
+.env

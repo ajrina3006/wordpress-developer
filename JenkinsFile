@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Pull Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/USERNAME/wordpress-developer.git'
+            }
+        }
+        stage('Deploy to Server') {
+            steps {
+                sh 'rsync -avz ./src/ /var/www/html/'
+            }
+        }
+    }
+}
