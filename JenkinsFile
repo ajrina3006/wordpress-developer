@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     stages {
-
         stage('Pull Latest Code') {
             steps {
                 git branch: 'main',
@@ -10,18 +9,19 @@ pipeline {
             }
         }
 
-        stage('Sync to Production WordPress') {
+        stage('Sync WP Content') {
             steps {
-                sh """
-                rsync -av --delete wp-content/ /var/www/html/wp-content/
-                """
+                // Gunakan opsi aman agar tidak error permission
+                sh 'rsync -av --delete --no-g --no-o wp-content/ /var/www/html/wp-content/'
             }
         }
 
         stage('Reload Apache') {
             steps {
-                sh "systemctl reload apache2 || true"
+         
+                sh 'sudo systemctl reload apache2 || true'
             }
         }
     }
 }
+
